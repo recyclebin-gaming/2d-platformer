@@ -1,0 +1,59 @@
+[gd_scene load_steps=11 format=4 uid="uid://dll7r70utdq6u"]
+
+[ext_resource type="PackedScene" uid="uid://l6eil8v1n048" path="res://player/Player.tscn" id="1_c6gwx"]
+[ext_resource type="Script" uid="uid://c8gj6cbjxjedv" path="res://levels/world.gd" id="1_wygdx"]
+[ext_resource type="Texture2D" uid="uid://cs5vusw4q4nvh" path="res://assets/textures/tilesheet.png" id="3_p1v5b"]
+[ext_resource type="PackedScene" uid="uid://cfsl1xbntf8s2" path="res://levels/level components/spike.tscn" id="4_wygdx"]
+[ext_resource type="PackedScene" uid="uid://vdbnydfkocoe" path="res://enemies/enemy.tscn" id="5_p1v5b"]
+[ext_resource type="PackedScene" uid="uid://b8usnfjufgjkd" path="res://levels/level components/checkpoint.tscn" id="6_p1v5b"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_c6gwx"]
+vertices = PackedVector2Array(2624.11, 1107.94, -3189.16, 1077.04, -3396.73, -585.438, 2646.87, -826.594)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-3198, 1087, 2634, 1118, 2657, -837, -3408, -595)])
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bah7m"]
+texture = ExtResource("3_p1v5b")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+0:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-128, -128, 128, -128, 128, 128, -128, 128)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-128, -128, 128, -128, 128, 128, -128, 128)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-128, -128, 128, -128, 128, 128, -128, 128)
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_fv4w7"]
+resource_name = "objects"
+scenes/1/scene = ExtResource("4_wygdx")
+scenes/3/scene = ExtResource("6_p1v5b")
+
+[sub_resource type="TileSet" id="TileSet_fvag4"]
+tile_size = Vector2i(256, 256)
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
+physics_layer_1/collision_layer = 2
+physics_layer_1/collision_mask = 2
+sources/0 = SubResource("TileSetAtlasSource_bah7m")
+sources/1 = SubResource("TileSetScenesCollectionSource_fv4w7")
+
+[node name="world" type="Node" groups=["levels"]]
+script = ExtResource("1_wygdx")
+
+[node name="Player" parent="." instance=ExtResource("1_c6gwx")]
+position = Vector2(1536, 562)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Node2D2" type="Node2D" parent="."]
+position = Vector2(-99, 173)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Node2D2"]
+navigation_polygon = SubResource("NavigationPolygon_c6gwx")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." groups=["levels"]]
+tile_map_data = PackedByteArray("AAAKAP3/AAACAAAAAAAKAP7/AAACAAAAAAAKAP//AAACAAAAAAAKAAAAAAACAAAAAAAKAAEAAAACAAAAAAAKAAIAAAACAAAAAAAKAAMAAAACAAAAAAAKAAQAAAACAAAAAAAKAAUAAAACAAAAAAAJAAUAAAACAAAAAAAIAAUAAAACAAAAAAAHAAUAAAACAAAAAAAGAAUAAAACAAAAAAAFAAUAAAACAAAAAAAEAAUAAAACAAAAAAADAAUAAAACAAAAAAACAAUAAAACAAAAAAABAAUAAAACAAAAAAAAAAUAAAACAAAAAAD//wUAAAACAAAAAAD+/wUAAAACAAAAAAD9/wUAAAACAAAAAAD8/wUAAAACAAAAAAD7/wUAAAACAAAAAAAJAAAAAAACAAAAAAAIAAAAAAACAAAAAAAHAAAAAAACAAAAAAAGAAAAAQAAAAAAAQAFAAAAAAACAAAAAAAEAAAAAAACAAAAAAADAAAAAAACAAAAAAACAAAAAAACAAAAAAABAAAAAAACAAAAAAAAAAAAAAACAAAAAAD+/wAAAAACAAAAAAD+/wEAAAACAAAAAAD+/wIAAAACAAAAAAD+/wMAAAACAAAAAAD//wMAAAACAAAAAAAAAAMAAAACAAAAAAABAAMAAAACAAAAAAACAAMAAAACAAAAAAADAAMAAAACAAAAAAAEAAMAAAACAAAAAAAFAAMAAAACAAAAAAAGAAMAAAACAAAAAAAHAAMAAAACAAAAAAAIAAMAAAACAAAAAAAEAAIAAQAAAAAAAwD6/wUAAAABAAAAAAD5/wUAAAABAAAAAAD4/wUAAAABAAAAAAD3/wUAAAABAAAAAAD2/wUAAAABAAAAAAD1/wUAAAABAAAAAAD0/wUAAAABAAAAAADz/wUAAAABAAAAAAD6/wIAAAABAAAAAAD5/wIAAAABAAAAAAD4/wIAAAABAAAAAAD3/wIAAAABAAAAAAD2/wIAAAABAAAAAAD1/wIAAAABAAAAAAD0/wIAAAABAAAAAAD//wIAAAABAAAAAADy/wQAAAABAAAAAADy/wUAAAABAAAAAAA=")
+tile_set = SubResource("TileSet_fvag4")
+
+[node name="Enemy2" parent="." instance=ExtResource("5_p1v5b")]
+position = Vector2(776, 565)
+collision_mask = 3

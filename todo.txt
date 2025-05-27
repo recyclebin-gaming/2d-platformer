@@ -1,0 +1,8 @@
+player controller ✅
+a singular level with enemies ✅
+
+----------------------------------------------------------------------------------------------------
+-make a better todo list
+-clean up enemy pathfinding code✅
+-player movement 
+-handle enemy attacks

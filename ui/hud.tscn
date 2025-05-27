@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://cksj04cwmvtu1"]
+
+[ext_resource type="Script" uid="uid://dwhjalnblnitf" path="res://ui/hud.gd" id="1_37p78"]
+
+[node name="HUD" type="Node2D"]
+script = ExtResource("1_37p78")
+
+[node name="Play" type="Button" parent="."]
+offset_left = 604.0
+offset_top = 321.0
+offset_right = 1322.0
+offset_bottom = 602.0
+theme_override_font_sizes/font_size = 200
+text = "Play"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 279.0
+offset_top = -75.0
+offset_right = 1681.0
+offset_bottom = 348.0
+theme_override_font_sizes/font_size = 310
+text = "DA GAME"
+horizontal_alignment = 1
+
+[node name="Options" type="Button" parent="."]
+offset_left = 590.0
+offset_top = 659.0
+offset_right = 1342.0
+offset_bottom = 945.0
+theme_override_font_sizes/font_size = 180
+text = "Options"
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
