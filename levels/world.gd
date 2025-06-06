@@ -1,5 +1,6 @@
 extends Node
 const SAVE_PATH = "user://save_json.json"
+@onready var player: CharacterBody2D = $Player
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

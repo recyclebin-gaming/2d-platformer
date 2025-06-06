@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://l6eil8v1n048"]
+[gd_scene load_steps=19 format=3 uid="uid://l6eil8v1n048"]
 
 [ext_resource type="Texture2D" uid="uid://chu50h46jf4r3" path="res://assets/textures/idle.png" id="1_80516"]
 [ext_resource type="Script" uid="uid://dofdoqla4hrg4" path="res://player/player.gd" id="1_cxr5p"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://c6em1w572b6a2" path="res://assets/textures/jump.png" id="2_jqaj3"]
 [ext_resource type="Texture2D" uid="uid://dnbr4fqynnado" path="res://assets/textures/left.png" id="3_y03ms"]
 [ext_resource type="Texture2D" uid="uid://b5436m4uu1gdg" path="res://assets/textures/right.png" id="4_pkoub"]
+[ext_resource type="Texture2D" uid="uid://cy13fqi3y3uvv" path="res://assets/textures/speedlines.png" id="7_06mnu"]
+[ext_resource type="PackedScene" uid="uid://cwhf7hfpv6iib" path="res://player/player_hud.tscn" id="7_gskgj"]
+[ext_resource type="Texture2D" uid="uid://chkpb7inakpf4" path="res://assets/textures/slam speedlines.png" id="8_mhpjh"]
 
 [sub_resource type="Curve" id="Curve_cxr5p"]
 _data = [Vector2(0, 0), 0.0, 0.18752, 0, 1, Vector2(0.532498, 0.0998538), 0.174866, 0.174866, 0, 0, Vector2(0.653203, 0.255723), 0.0, 0.0, 0, 0, Vector2(0.783194, 1), 0.0164589, 0.0164589, 0, 0, Vector2(1, 1), -0.181004, 0.0, 0, 0]
@@ -54,11 +57,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxr5p"]
 size = Vector2(231, 239)
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_tdg3f"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dtqjt"]
-size = Vector2(272, 93)
-
 [sub_resource type="Animation" id="Animation_tdg3f"]
 length = 0.001
 tracks/0/type = "value"
@@ -96,9 +94,26 @@ _data = {
 &"hitflash": SubResource("Animation_dtqjt")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gskgj"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 200, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ndjxb"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 180.0
+flatness = 1.0
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 98, 0)
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 use_parent_material = true
-position = Vector2(1, 0)
+position = Vector2(1.00003, 1)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_cxr5p")
 jump_curve = SubResource("Curve_cxr5p")
@@ -110,26 +125,9 @@ sprite_frames = SubResource("SpriteFrames_e80uo")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(1.5, 0.5)
 shape = SubResource("RectangleShape2D_cxr5p")
-
-[node name="Area2D" type="Area2D" parent="."]
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-visible = false
-modulate = Color(1, 0.219608, 0, 1)
-position = Vector2(228, 3.5)
-scale = Vector2(268, 87)
-texture = SubResource("CanvasTexture_tdg3f")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(231, 3.5)
-shape = SubResource("RectangleShape2D_dtqjt")
-disabled = true
-
-[node name="Timer" type="Timer" parent="Area2D"]
-wait_time = 0.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -142,6 +140,30 @@ limit_left = -1000000
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(141.241, 133.75)
+scale = Vector2(0.999999, 0.999999)
+skew = 1.56905
+emitting = false
+amount = 30
+texture = ExtResource("7_06mnu")
+lifetime = 0.24
+process_material = SubResource("ParticleProcessMaterial_gskgj")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+position = Vector2(4.99996, 67.5)
+scale = Vector2(1, 1)
+emitting = false
+amount = 5
+texture = ExtResource("8_mhpjh")
+lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_ndjxb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("7_gskgj")]
+position = Vector2(992, 731)
+scale = Vector2(12, 12)
+
 [connection signal="hit" from="." to="." method="_on_hit"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

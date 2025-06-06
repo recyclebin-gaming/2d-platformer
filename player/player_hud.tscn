@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwhf7hfpv6iib"]
+
+[ext_resource type="Script" uid="uid://ba580pc04a33b" path="res://player/player_hud.gd" id="1_qo0ji"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o2yc"]
+bg_color = Color(0, 0, 0, 0.356863)
+expand_margin_top = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qo0ji"]
+bg_color = Color(1, 0, 0, 1)
+border_color = Color(0, 1, 1, 1)
+anti_aliasing_size = 0.01
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r44wa"]
+bg_color = Color(0, 0, 0, 0.356863)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2j6sb"]
+bg_color = Color(0, 0, 1, 0.4)
+
+[node name="PlayerHud" type="Node2D"]
+scale = Vector2(15, 15)
+script = ExtResource("1_qo0ji")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 74.0
+offset_bottom = 6.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_2o2yc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qo0ji")
+value = 60.0
+show_percentage = false
+
+[node name="StaminaBar" type="ProgressBar" parent="."]
+offset_left = 1.0
+offset_top = 8.0
+offset_right = 74.0
+offset_bottom = 21.0
+theme_override_styles/background = SubResource("StyleBoxFlat_r44wa")
+theme_override_styles/fill = SubResource("StyleBoxFlat_2j6sb")
+value = 100.0
+show_percentage = false
+
+[node name="ColorRect" type="ColorRect" parent="StaminaBar"]
+layout_mode = 0
+offset_left = 1.02702
+offset_top = 1.71076
+offset_right = 24.027
+offset_bottom = 10.7108
+color = Color(1, 0.909804, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="StaminaBar"]
+layout_mode = 0
+offset_left = 25.027
+offset_top = 1.71076
+offset_right = 48.027
+offset_bottom = 10.7108
+color = Color(1, 0.909804, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="StaminaBar"]
+layout_mode = 0
+offset_left = 49.027
+offset_top = 1.71076
+offset_right = 72.027
+offset_bottom = 10.7108
+color = Color(1, 0.909804, 0, 1)

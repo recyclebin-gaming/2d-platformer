@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://vdbnydfkocoe"]
+[gd_scene load_steps=11 format=3 uid="uid://vdbnydfkocoe"]
 
-[ext_resource type="Script" uid="uid://jpjiod7vu8jj" path="res://enemies/enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://vsmu0qe6gtb0" path="res://assets/textures/enemy.png" id="1_7k104"]
+[ext_resource type="Script" uid="uid://b46kfc0s75oib" path="res://enemies/enemy.gd" id="1_orwns"]
 [ext_resource type="Texture2D" uid="uid://56f4cukwmb1u" path="res://assets/textures/attack.png" id="3_qi2p4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gyqm"]
@@ -13,9 +13,123 @@ size = Vector2(152.472, 413.77)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iifgy"]
 size = Vector2(1125, 1130)
 
+[sub_resource type="Animation" id="Animation_a6vjd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Right:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Left:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Right/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Left/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_07tka"]
+resource_name = "left_attack"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Left:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.86667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Left/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.83333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_orwns"]
+resource_name = "right_attack"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Right:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.86667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.83333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a6vjd"]
+_data = {
+&"RESET": SubResource("Animation_a6vjd"),
+&"left_attack": SubResource("Animation_07tka"),
+&"right_attack": SubResource("Animation_orwns")
+}
+
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(0.24, 0.24)
-script = ExtResource("1_4gyqm")
+script = ExtResource("1_orwns")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_7k104")
@@ -28,8 +142,9 @@ shape = SubResource("RectangleShape2D_4gyqm")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Left" type="Area2D" parent="."]
-visible = false
 position = Vector2(0, -9.53674e-06)
+collision_layer = 8
+collision_mask = 0
 
 [node name="SpriteLeft" type="Sprite2D" parent="Left"]
 position = Vector2(-675, 85)
@@ -42,7 +157,7 @@ scale = Vector2(0.998992, 1.25578)
 shape = SubResource("RectangleShape2D_qi2p4")
 
 [node name="Right" type="Area2D" parent="."]
-visible = false
+collision_layer = 8
 
 [node name="SpriteRight" type="Sprite2D" parent="Right"]
 position = Vector2(680, 95)
@@ -61,6 +176,23 @@ shape = SubResource("RectangleShape2D_qi2p4")
 position = Vector2(-2.49994, -75)
 scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_iifgy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a6vjd")
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.4
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = -650.0
+offset_top = -1320.83
+offset_right = 942.0
+offset_bottom = -709.833
+theme_override_font_sizes/font_size = 500
+text = "erm"
 
 [connection signal="body_entered" from="Left" to="." method="_on_left_body_entered"]
 [connection signal="body_entered" from="Right" to="." method="_on_right_body_entered"]
