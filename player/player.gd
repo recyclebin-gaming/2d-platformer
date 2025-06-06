@@ -12,7 +12,14 @@ var stamina = 3
 var dash
 var invul = false
 var slam
+var shake_length = 0
 
+
+func camera_shake() -> void:
+	if shake_length > 0:
+		$Camera2D.offset = Vector2(randf_range(20, 40), randf_range(20, 40))
+		shake_length = move_toward(shake_length, 0, 1)
+	
 
 func _physics_process(delta: float) -> void:
 	var boost = 0
@@ -26,8 +33,14 @@ func _physics_process(delta: float) -> void:
 			velocity.y = 5000
 			stamina -= 2	
 			invul = false
+			slam = true
 			$GPUParticles2D2.emitting = true
 	if is_on_floor() and !dash:
+		if slam:
+			shake_length = 15
+			slam = false
+		camera_shake()
+			
 		invul = true
 		$GPUParticles2D2.emitting = false
 		
